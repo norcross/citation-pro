@@ -43,28 +43,6 @@ class CitationPro_Front {
 			'citeSpeed'		=> apply_filters( 'citepro_scroll_speed', 750 ),
 			'citeOffset'	=> apply_filters( 'citepro_scroll_offset', 40 )
 		));
-	}
-
-	/**
-	 * [citation_shortcode description]
-	 * @param  [type] $atts    [description]
-	 * @param  [type] $content [description]
-	 * @return [type]          [description]
-	 */
-	public function citation_shortcode( $atts, $content = null ) {
-
-		// check for empty first
-		if ( empty ( $content ) ) {
-			return;
-		}
-		// get my number count
-		$num = self::$citecount++;
-
-		// build the markup
-		$cite	= '<sup class="citepro" data-citenum="' . absint( $num ) . '"> '. absint( $num ) . ' </sup>';
-
-		// send it back
-		return $cite;
 
 	}
 
@@ -93,6 +71,29 @@ class CitationPro_Front {
 	}
 
 	/**
+	 * [citation_shortcode description]
+	 * @param  [type] $atts    [description]
+	 * @param  [type] $content [description]
+	 * @return [type]          [description]
+	 */
+	public function citation_shortcode( $atts, $content = null ) {
+
+		// check for empty first
+		if ( empty ( $content ) ) {
+			return;
+		}
+		// get my number count
+		$num = self::$citecount++;
+
+		// build the markup
+		$cite	= '<sup class="citepro" data-num="' . absint( $num ) . '">&nbsp;'. absint( $num ) . '&nbsp;</sup>';
+
+		// send it back
+		return $cite;
+
+	}
+
+	/**
 	 * [build_cite_list description]
 	 * @param  array  $cites [description]
 	 * @return [type]        [description]
@@ -106,7 +107,9 @@ class CitationPro_Front {
 		$i = 1;
 		foreach ( $cites as $cite ):
 
-			$display .= '<span class="citepro-text" rel="' . absint( $i ) . '">[' . absint( $i ) . '] ' . esc_attr( $cite ) . '</span>';
+			$display .= '<span class="citepro-text" rel="' . absint( $i ) . '">';
+			$display .= '[' . absint( $i ) . ']&nbsp;' . esc_attr( $cite );
+			$display .= '</span>';
 
 		$i++;
 		endforeach;

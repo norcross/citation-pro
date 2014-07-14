@@ -40,8 +40,6 @@ Things
 
 ## Screenshots ##
 
-###1. Screenshot
-
 
 ## Changelog ##
 

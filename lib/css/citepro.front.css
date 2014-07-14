@@ -1,0 +1,15 @@
+sup.citepro {
+	cursor: pointer;
+}
+
+p.citepro-block {
+	clear: both;
+	padding: 7px 0;
+	border-top: 1px dotted #ccc;
+	border-bottom: 1px dotted #ccc;
+}
+
+p.citepro-block span.citepro-text {
+	display: block;
+	width: 100%;
+}

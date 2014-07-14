@@ -1,0 +1,15 @@
+.mce-i-citation {
+	font-family: "dashicons";
+}
+
+.mce-i-citation:before {
+	content: "\f130";
+	display: inline-block;
+	-webkit-font-smoothing: antialiased;
+	text-align: center;
+	font: 400 20px/1 "dashicons"!important;
+	speak: none;
+	vertical-align: top;
+	bottom: 1px;
+	position: relative;
+}

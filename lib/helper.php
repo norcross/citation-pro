@@ -3,41 +3,44 @@
  // Start up the engine
 class CitationPro_Helper {
 
-	/**
-	 * [build_cite_list description]
-	 * @param  array  $cites [description]
-	 * @return [type]        [description]
-	 */
-	static function build_cite_list( $cites = array() ) {
+    /**
+     * build individual items of citations to be generated
+     * at the bottom of the content
+     *
+     * @param  array  $cites [description]
+     * @return [type]        [description]
+     */
+    static function build_cite_list( $cites = array() ) {
+        // start with an empty
+        $display = '';
+        // open the markup
+        $display .= '<p class="citepro-block">';
+        // start the counter
+        $i = 1;
+        // begin loop
+        foreach ( $cites as $cite ):
+            // markup for each item
+            $display .= '<span class="citepro-text" rel="' . absint( $i ) . '">' . absint( $i ) . '.&nbsp;' . esc_html( $cite ) . '</span>';
+        // trigger counter
+        $i++;
+        // end loop
+        endforeach;
+        // close markup
+        $display .= '</p>';
+        // send it back decoded
+        return html_entity_decode( $display );
 
-		$display = '';
+    }
 
-		$display .= '<p class="citepro-block">';
-
-		$i = 1;
-		foreach ( $cites as $cite ):
-
-			$display .= '<span class="citepro-text" rel="' . absint( $i ) . '">[' . absint( $i ) . '] ' . esc_attr( $cite ) . '</span>';
-
-		$i++;
-		endforeach;
-
-		$display .= '</p>';
-
-		// send it back
-		return $display;
-
-	}
-
-	/**
-	 * preset our allowed post types for content
-	 * modification with filter
-	 *
-	 * @return array	post types
-	 */
-	static function types() {
-		return apply_filters( 'citepro_post_types', array( 'post' ) );
-	}
+    /**
+     * preset our allowed post types for content
+     * modification with filter
+     *
+     * @return array    post types
+     */
+    static function types() {
+        return apply_filters( 'citepro_post_types', array( 'post' ) );
+    }
 
 /// end class
 }

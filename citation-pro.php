@@ -51,7 +51,7 @@ class CitationPro_Base
      * @return CitationPro
      */
     private function __construct() {
-        add_action      (   'plugins_loaded',               array(  $this, 'textdomain'             )           );
+        add_action      (   'plugins_loaded',               array(  $this,  'textdomain'            )           );
         add_action      (   'plugins_loaded',               array(  $this,  'load_files'            )           );
 
     }

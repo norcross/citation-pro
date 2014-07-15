@@ -17,11 +17,10 @@ class CitationPro_Front {
      */
 
     public function __construct() {
-        add_action      (   'wp_enqueue_scripts',                   array(  $this,  'citation_front_js'         )           );
-        add_action      (   'wp_enqueue_scripts',                   array(  $this,  'citation_front_css'        )           );
-        add_filter      (   'the_content',                          array(  $this,  'citation_display'          )           );
-        add_shortcode   (   'citepro',                              array(  $this,  'citation_shortcode'        )           );
-
+        add_action      (   'wp_enqueue_scripts',               array(  $this,  'citation_front_js'         )           );
+        add_action      (   'wp_enqueue_scripts',               array(  $this,  'citation_front_css'        )           );
+        add_filter      (   'the_content',                      array(  $this,  'citation_display'          )           );
+        add_shortcode   (   'citepro',                          array(  $this,  'citation_shortcode'        )           );
     }
 
     /**

@@ -10,17 +10,17 @@ class CitationPro_Admin {
      */
 
     public function __construct() {
-        add_action      (   'admin_enqueue_scripts',                array(  $this,  'citation_admin_scripts'    ),  10      );
-        add_action      (   'admin_init',                           array(  $this,  'citation_editor_load'      )           );
+        add_action      (   'admin_enqueue_scripts',            array(  $this,  'citation_admin_scripts'    ),  10      );
+        add_action      (   'admin_init',                       array(  $this,  'citation_editor_load'      )           );
 
     }
 
     /**
-     * [citation_admin_scripts description]
-     * @param  [type] $hook [description]
-     * @return [type]       [description]
+     * load CSS for our editor button
+     *
+     * @return void
      */
-    public function citation_admin_scripts( $hook ) {
+    public function citation_admin_scripts() {
 
         // get our post types
         $types  = CitationPro_Helper::types();
@@ -36,8 +36,11 @@ class CitationPro_Admin {
     }
 
     /**
-     * [citation_editor_load description]
-     * @return [type] [description]
+     * runs our check on allowed post types
+     * and if a match, loads all the TinyMCE items
+     * needed to work
+     *
+     * @return void
      */
     public function citation_editor_load() {
 
@@ -61,8 +64,10 @@ class CitationPro_Admin {
     }
 
     /**
-     * [citation_quicktag description]
-     * @return [type] [description]
+     * add the citation quicktag button
+     * to the first row
+     *
+     * @return js [description]
      */
     static function citation_quicktag() {
         // bail if not on quicktag row
@@ -79,8 +84,8 @@ class CitationPro_Admin {
 
     /**
      * loader for the required JS
-     * @param  [type] $plugin_array [description]
-     * @return [type]               [description]
+     * @param  array    $plugin_array   the array of items for TinyMCE with their JS
+     * @return array    $plugin_array   the same array of items including ours
      */
     static function citation_tinymce_core( $plugin_array ) {
         // add our JS
@@ -91,8 +96,8 @@ class CitationPro_Admin {
 
     /**
      * Add the button key for address via JS
-     * @param  [type] $buttons [description]
-     * @return [type]          [description]
+     * @param  array    $buttons        all the tinyMCE buttons
+     * @return array    $buttons        our button appended to the end
      */
     static function citation_tinymce_button( $buttons ) {
         // push our button to the end

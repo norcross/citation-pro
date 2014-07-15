@@ -7,8 +7,8 @@ class CitationPro_Helper {
      * build individual items of citations to be generated
      * at the bottom of the content
      *
-     * @param  array  $cites [description]
-     * @return [type]        [description]
+     * @param  array  $cites        array of citation content
+     * @return html   $display      the marked up list of all the citations
      */
     static function build_cite_list( $cites = array() ) {
         // start with an empty

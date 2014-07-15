@@ -126,7 +126,7 @@ class CitationPro_Front {
         $num = self::$citecount++;
 
         // build the markup
-        $cite   = '<sup class="citepro" data-num="' . absint( $num ) . '">&nbsp;'. absint( $num ) . '&nbsp;</sup>';
+        $cite   = '<sup class="citepro" data-num="' . absint( $num ) . '">'. absint( $num ) .'</sup>';
 
         // send it back
         return $cite;

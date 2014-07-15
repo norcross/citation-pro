@@ -20,7 +20,7 @@ class CitationPro_Helper {
         // begin loop
         foreach ( $cites as $cite ):
             // markup for each item
-            $display .= '<span class="citepro-text" rel="' . absint( $i ) . '">' . absint( $i ) . '.&nbsp;' . esc_html( $cite ) . '</span>';
+            $display .= '<span class="citepro-text" rel="' . absint( $i ) . '">' . absint( $i ) . '. ' . esc_html( $cite ) . '</span>';
         // trigger counter
         $i++;
         // end loop

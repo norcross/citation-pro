@@ -90,6 +90,11 @@ class CitationPro_Front {
             return $content;
         }
 
+        // check for filter flag to disable showing on home page
+        if ( is_front_page() && false === apply_filters( 'citepro_load_homepage', true ) ) {
+            return $content;
+        }
+
         // run our preg match to pull the content out
         preg_match_all( '/\[citepro](.+?)\[\/citepro]/is', $content, $matches, PREG_PATTERN_ORDER );
 
@@ -104,6 +109,7 @@ class CitationPro_Front {
         // build my list
         $display    = CitationPro_Helper::build_cite_list( $cites );
 
+        // return the list after the content
         return $content . '<br />' . $display;
 
     }
@@ -122,6 +128,12 @@ class CitationPro_Front {
         if ( empty ( $content ) ) {
             return;
         }
+
+        // check for filter flag to disable showing on home page
+        if ( is_front_page() && false === apply_filters( 'citepro_load_homepage', true ) ) {
+            return;
+        }
+
         // get my number count
         $num = self::$citecount++;
 

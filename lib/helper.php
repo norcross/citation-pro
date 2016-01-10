@@ -1,50 +1,76 @@
 <?php
+/**
+ * Citation Pro - Helper Module
+ *
+ * Contains various helper functions used in various places.
+ *
+ * @package Citation Pro
+ */
 
- // Start up the engine
+/**
+ * Start our engines.
+ */
 class CitationPro_Helper {
 
-    /**
-     * build individual items of citations to be generated
-     * at the bottom of the content
-     *
-     * @param  array  $cites        array of citation content
-     * @return html   $display      the marked up list of all the citations
-     */
-    static function build_cite_list( $cites = array() ) {
-        // start with an empty
-        $display = '';
-        // open the markup
-        $display .= '<p class="citepro-block">';
-        // start the counter
-        $i = 1;
-        // begin loop
-        foreach ( $cites as $cite ):
-            // markup for each item
-            $display .= '<span class="citepro-text" rel="' . absint( $i ) . '">' . absint( $i ) . '. ' . esc_html( $cite ) . '</span>';
-        // trigger counter
-        $i++;
-        // end loop
-        endforeach;
-        // close markup
-        $display .= '</p>';
-        // send it back decoded
-        return html_entity_decode( $display );
+	/**
+	 * Build individual items of citations to be generated at the bottom of the content.
+	 *
+	 * @param  array $cites    Array of citation content.
+	 *
+	 * @return html  $display  The marked up list of all the citations.
+	 */
+	public static function build_cite_list( $cites = array() ) {
 
-    }
+		// Bail if no citations were passed.
+		if ( empty( $cites ) || ! is_array( $cites ) ) {
+			return;
+		}
 
-    /**
-     * preset our allowed post types for content
-     * modification with filter
-     *
-     * @return array    post types
-     */
-    static function types() {
-        return apply_filters( 'citepro_post_types', array( 'post' ) );
-    }
+		// Set the class for the paragraph.
+		$pclass = apply_filters( 'citepro_markup_paragraph_class', 'citepro-block' );
 
-/// end class
+		// Start with an empty.
+		$build  = '';
+
+		// Open the markup.
+		$build .= '<p class="' . esc_attr( $pclass ) . '">';
+
+		// Start the counter.
+		$i = 1;
+
+		// Loop through the citations.
+		foreach ( $cites as $cite ) {
+
+			// Set the class for each individual item class.
+			$sclass = apply_filters( 'citepro_markup_span_class', 'citepro-text' );
+
+			// Markup for each item.
+			$build .= '<span class="' . esc_attr( $sclass ) . '" rel="' . absint( $i ) . '">';
+			$build .= absint( $i ) . '. ' . esc_html( $cite );
+			$build .= '</span>';
+
+			// Increment the counter.
+			$i++;
+		}
+
+		// Close markup.
+		$build .= '</p>';
+
+		// Run it through a filter and return.
+		return apply_filters( 'citepro_markup_display', html_entity_decode( $build ) );
+	}
+
+	/**
+	 * Preset our allowed post types for content modification with filter.
+	 *
+	 * @return array $types  The post types we are using.
+	 */
+	public static function types() {
+		return apply_filters( 'citepro_post_types', array( 'post' ) );
+	}
+
+	// End class.
 }
 
-
-// Instantiate our class
+// Load the class.
 new CitationPro_Helper();

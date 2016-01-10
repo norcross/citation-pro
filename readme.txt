@@ -3,11 +3,11 @@ Contributors: norcross
 Website Link: http://andrewnorcross.com/plugins/
 Donate link: https://andrewnorcross.com/donate
 Tags: citation, MLA
-Requires at least: 3.9
-Tested up to: 3.9.1
-Stable tag: 0.0.1
-License: GPLv2 or later
-License URI: http://www.gnu.org/licenses/gpl-2.0.html
+Requires at least: 4.0
+Tested up to: 4.2
+Stable tag: 0.0.2
+License: MIT
+License URI: http://norcross.mit-license.org/
 
 Built in method for easiliy citing your content with footnotes.
 
@@ -35,6 +35,9 @@ Things
 
 
 == Changelog ==
+
+= 0.0.2 =
+* Code cleanup
 
 = 0.0.1 =
 * First release!

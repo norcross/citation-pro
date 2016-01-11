@@ -36,10 +36,10 @@ Things
 
 == Changelog ==
 
-= 0.0.2 =
+= 0.0.2 - 2016/01/10 =
 * Code cleanup
 
-= 0.0.1 =
+= 0.0.1 - 2014/07/14 =
 * First release!
 
 

@@ -5,7 +5,7 @@
  * Description: Built in method for easiliy citing your content.
  * Author: Andrew Norcross
  * Author URI: http://andrewnorcross.com/
- * Version: 0.0.2
+ * Version: 0.0.3
  * Text Domain: citation-pro
  * Requires WP: 4.0
  * Domain Path: languages
@@ -36,16 +36,24 @@
  * THE SOFTWARE.
  */
 
+// Plugin file base directory constant.
 if ( ! defined( 'CITEPRO_BASE ' ) ) {
 	define( 'CITEPRO_BASE', plugin_basename( __FILE__ ) );
 }
 
+// Plugin directory constant.
 if ( ! defined( 'CITEPRO_DIR' ) ) {
 	define( 'CITEPRO_DIR', plugin_dir_path( __FILE__ ) );
 }
 
-if ( ! defined( 'CITEPRO_VER' ) ) {
-	define( 'CITEPRO_VER', '0.0.2' );
+// Plugin folder URL.
+if ( ! defined( 'CITEPRO_URL' ) ) {
+	define( 'CITEPRO_URL', plugin_dir_url( __FILE__ ) );
+}
+
+// Plugin version constant.
+if ( ! defined( 'CITEPRO_VERS' ) ) {
+	define( 'CITEPRO_VERS', '0.0.3' );
 }
 
 /**

@@ -2,6 +2,13 @@ sup.citepro {
 	cursor: pointer;
 }
 
+sup.citepro a.citepro-link,
+p.citepro-block a.citepro-link {
+	text-decoration: none;
+	box-shadow: none;
+	outline: 0 none;
+}
+
 p.citepro-block {
 	clear: both;
 	padding: 7px 0;

@@ -24,8 +24,8 @@ class CitationPro_Front {
 	 * @return void
 	 */
 	public function init() {
-		add_action( 'wp_enqueue_scripts',           array( $this, 'front_js'            )           );
-		add_action( 'wp_enqueue_scripts',           array( $this, 'front_css'           )           );
+		add_action( 'wp_enqueue_scripts',           array( $this, 'front_js'            ),  50      );
+		add_action( 'wp_enqueue_scripts',           array( $this, 'front_css'           ),  50      );
 		add_filter( 'the_content',                  array( $this, 'display'             )           );
 		add_shortcode( 'citepro',                   array( $this, 'shortcode'           )           );
 	}
@@ -37,6 +37,11 @@ class CitationPro_Front {
 	 */
 	public function front_js() {
 
+		// Check for filter flag to disable showing on home page.
+		if ( false === self::check_homepage_load() ) {
+			return;
+		}
+
 		// Fetch global post object.
 		global $post;
 
@@ -46,12 +51,18 @@ class CitationPro_Front {
 		}
 
 		// Check for our killswitch flag.
-		if ( false === apply_filters( 'citepro_load_js', true ) ) {
+		if ( false === apply_filters( 'citepro_load_js', '__return_true' ) ) {
 			return;
 		}
 
+		// Set a file suffix structure based on whether or not we want a minified version.
+		$file   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? 'citepro.front' : 'citepro.front.min';
+
+		// Set a version for whether or not we're debugging.
+		$vers   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : CITEPRO_VERS;
+
 		// Load my JS.
-		wp_enqueue_script( 'citepro-front', plugins_url( '/js/citepro.front.js', __FILE__ ) , array( 'jquery' ), CITEPRO_VER, true );
+		wp_enqueue_script( 'citepro-front', CITEPRO_URL . 'lib/js/' . $file . '.js', array( 'jquery' ), $vers, true );
 		wp_localize_script( 'citepro-front', 'citeproFront', array(
 			'citeSpeed'     => apply_filters( 'citepro_scroll_speed', 750 ),
 			'citeOffset'    => apply_filters( 'citepro_scroll_offset', 40 ),
@@ -67,6 +78,11 @@ class CitationPro_Front {
 	 */
 	public function front_css() {
 
+		// Check for filter flag to disable showing on home page.
+		if ( false === self::check_homepage_load() ) {
+			return;
+		}
+
 		// Fetch global post object.
 		global $post;
 
@@ -76,12 +92,18 @@ class CitationPro_Front {
 		}
 
 		// Check for our killswitch flag.
-		if ( false === apply_filters( 'citepro_load_css', true ) ) {
+		if ( false === apply_filters( 'citepro_load_css', '__return_true' ) ) {
 			return;
 		}
 
+		// Set a file suffix structure based on whether or not we want a minified version.
+		$file   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? 'citepro.front' : 'citepro.front.min';
+
+		// Set a version for whether or not we're debugging.
+		$vers   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : CITEPRO_VERS;
+
 		// Load my CSS.
-		wp_enqueue_style( 'citepro-front', plugins_url( '/css/citepro.front.css', __FILE__ ), array(), CITEPRO_VER, 'all' );
+		wp_enqueue_style( 'citepro-front', CITEPRO_URL . 'lib/css/' . $file . '.css', array(), $vers, 'all' );
 	}
 
 	/**
@@ -99,12 +121,17 @@ class CitationPro_Front {
 		}
 
 		// Check for filter flag to disable showing on home page.
-		if ( is_front_page() && false === apply_filters( 'citepro_load_homepage', true ) ) {
+		if ( false === self::check_homepage_load() ) {
 			return $content;
 		}
 
 		// Run our preg match to pull the content out.
 		preg_match_all( '/\[citepro](.+?)\[\/citepro]/is', $content, $matches, PREG_PATTERN_ORDER );
+
+		// Bail without any matches from our regex.
+		if ( empty( $matches[1] ) ) {
+			return $content;
+		}
 
 		// Pull out the matches.
 		$cites = $matches[1];
@@ -115,7 +142,7 @@ class CitationPro_Front {
 		}
 
 		// Build my list.
-		$list   = CitationPro_Helper::build_cite_list( $cites );
+		$list   = CitationPro_Helper::build_cite_list( $cites, get_the_ID() );
 
 		// Return the list after the content.
 		return $content . '<br>' . $list;
@@ -127,7 +154,7 @@ class CitationPro_Front {
 	 * @param  array $atts     The shortcode attribute array.
 	 * @param  mixed $content  The post content.
 	 *
-	 * @return [type]          [description]
+	 * @return HTML
 	 */
 	public function shortcode( $atts, $content = null ) {
 
@@ -137,18 +164,31 @@ class CitationPro_Front {
 		}
 
 		// Check for filter flag to disable showing on home page.
-		if ( is_front_page() && false === apply_filters( 'citepro_load_homepage', true ) ) {
+		if ( false === self::check_homepage_load() ) {
 			return;
 		}
 
 		// Get my number count.
 		$num    = self::$citecount++;
 
-		// Build the markup.
-		$cite   = '<sup class="citepro" data-cite-num="' . absint( $num ) . '">'. absint( $num ) .'</sup>';
-
 		// Send it back.
-		return $cite;
+		return CitationPro_Helper::get_single_cite( $num, get_the_ID() );
+	}
+
+	/**
+	 * Check to see if we want the home page loading items.
+	 *
+	 * @return boolean
+	 */
+	public static function check_homepage_load() {
+
+		// If we aren't on the front page, bail right away.
+		if ( ! is_front_page() ) {
+			return true;
+		}
+
+		// Now return whatever we've passed via filter.
+		return apply_filters( 'citepro_load_homepage', '__return_true' );
 	}
 
 	// End class.

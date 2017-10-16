@@ -40,9 +40,15 @@ class CitationPro_Admin {
 		// Get current screen info.
 		$screen = get_current_screen();
 
+		// Set a file suffix structure based on whether or not we want a minified version.
+		$file   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? 'citepro.admin' : 'citepro.admin.min';
+
+		// Set a version for whether or not we're debugging.
+		$vers   = defined( 'SCRIPT_DEBUG' ) && SCRIPT_DEBUG ? time() : CITEPRO_VERS;
+
 		// Load on post types as indicated.
 		if ( is_object( $screen ) && ! empty( $screen->post_type ) && in_array( $screen->post_type, $types ) ) {
-			wp_enqueue_style( 'citepro-admin', plugins_url( '/css/citepro.admin.css', __FILE__ ), array(), CITEPRO_VER, 'all' );
+			wp_enqueue_style( 'citepro-admin', CITEPRO_URL . 'lib/css/' . $file . '.css', array(), $vers, 'all' );
 		}
 	}
 
@@ -58,6 +64,7 @@ class CitationPro_Admin {
 
 		// First check if we are on the post page.
 		if ( 'post.php' === $pagenow && isset( $_GET['post'] ) ) {
+
 			// Fetch the post types we are using this on.
 			$types  = CitationPro_Helper::types();
 

@@ -62,7 +62,7 @@ class CitationPro_Helper {
 		$build  = '';
 
 		// Open the markup.
-		$build .= '<p class="' . esc_attr( $pclass ) . '">';
+		$build .= '<div class="' . esc_attr( $pclass ) . '">';
 
 		// Start the counter.
 		$i = 1;
@@ -74,25 +74,32 @@ class CitationPro_Helper {
 			$link   = get_permalink( $post_id ) . '#citepro-inline-' . absint( $i );
 
 			// Set my text and link.
-			$intro  = '<a class="citepro-link citepro-list-link" rel="' . absint( $i ) . '" href="' . esc_url( $link ) . '">'. absint( $i ) . '</a>';
-
-			// Set my return back arrow.
-			$arrow  = '<a class="citepro-link citepro-arrow-link" rel="' . absint( $i ) . '" href="' . esc_url( $link ) . '">&uarr;</a>';
+			$intro  = '';
 
 			// Set the class for each individual item class.
 			$sclass = apply_filters( 'citepro_markup_span_class', 'citepro-text' );
 
-			// Markup for each item.
-			$build .= '<span id="' . esc_attr( $sclass ) . '-' . absint( $i ) . '" class="' . esc_attr( $sclass ) . '">';
-				$build .= $intro . '. ' . esc_html( $cite ) . ' ' . $arrow;
-			$build .= '</span>';
+			// Wrap the citation inside of a div.
+			$build .= '<div id="' . esc_attr( $sclass ) . '-' . absint( $i ) . '" class="' . esc_attr( $sclass ) . '">';
+
+				// Set the numerical intro link.
+				$build .= '<a class="citepro-link citepro-list-link" rel="' . absint( $i ) . '" href="' . esc_url( $link ) . '">'. absint( $i ) . '.</a> ';
+
+				// Do the citation itself.
+				$build .= wp_kses_post( $cite );
+
+				// And throw an arrow at the end.
+				$build .= ' <a class="citepro-link citepro-list-link" rel="' . absint( $i ) . '" href="' . esc_url( $link ) . '">&uarr;</a>';
+
+			// And close my div.
+			$build .= '</div>';
 
 			// Increment the counter.
 			$i++;
 		}
 
 		// Close markup.
-		$build .= '</p>';
+		$build .= '</div>';
 
 		// Run it through a filter and return.
 		return apply_filters( 'citepro_markup_display', html_entity_decode( $build ) );
@@ -104,7 +111,7 @@ class CitationPro_Helper {
 	 * @return array $types  The post types we are using.
 	 */
 	public static function types() {
-		return apply_filters( 'citepro_post_types', array( 'post' ) );
+		return apply_filters( 'citepro_post_types', array( 'post', 'page' ) );
 	}
 
 	// End class.

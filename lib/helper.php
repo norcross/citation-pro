@@ -76,12 +76,15 @@ class CitationPro_Helper {
 			// Set my text and link.
 			$intro  = '<a class="citepro-link citepro-list-link" rel="' . absint( $i ) . '" href="' . esc_url( $link ) . '">'. absint( $i ) . '</a>';
 
+			// Set my return back arrow.
+			$arrow  = '<a class="citepro-link citepro-arrow-link" rel="' . absint( $i ) . '" href="' . esc_url( $link ) . '">&uarr;</a>';
+
 			// Set the class for each individual item class.
 			$sclass = apply_filters( 'citepro_markup_span_class', 'citepro-text' );
 
 			// Markup for each item.
 			$build .= '<span id="' . esc_attr( $sclass ) . '-' . absint( $i ) . '" class="' . esc_attr( $sclass ) . '">';
-				$build .= $intro . '. ' . esc_html( $cite );
+				$build .= $intro . '. ' . esc_html( $cite ) . ' ' . $arrow;
 			$build .= '</span>';
 
 			// Increment the counter.
